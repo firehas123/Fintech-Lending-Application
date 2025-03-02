@@ -1,0 +1,3 @@
+: Integrate Twilio for sending SMS notifications and login authentication. Specifically, we need to implement: - SMS notification for loan application status updates - SMS-based login authentication for clients 
+
+Plaid API: Integrate Plaid for bank connection, pushing, and pulling funds. Specifically, we need to implement: - Bank account linking for clients - Fund transfers (push and pull) for loan disbursements and repayments SignNow API: Integrate SignNow for electronic signature of documents. Specifically, we need to implement: - Electronic signature of loan agreements and other documents
