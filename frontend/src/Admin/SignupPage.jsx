@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -18,21 +19,37 @@ const SignupPage = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    console.log(e.target[0].value);
-    console.log(e.target[1].value);
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Signup Successful!");
-    if (
-      e.target[0].value === "admin@demo.com" &&
-      e.target[1].value === "admin@123"
-    ) {
-      navigate("/dashboard"); // Redirect to Dashboard after login
-    } else if (
-      e.target[0].value === "user@demo.com" &&
-      e.target[1].value === "user@123"
-    ) {
-      navigate("/user-pannel"); // Redirect to Dashboard after login
+
+    try {
+      // Using Axios to make the POST request
+      const response = await axios.post("http://localhost:8000/user-pannel/login", {
+        email: formData.email,
+        password: formData.password,
+      });
+
+      // If the request is successful, you can check the response data:
+      const data = response.data; 
+      if (data.success) {
+        // alert(data.message);
+         // Navigate to the OTP verification page
+         
+         // If Admin
+         if (data.role === "admin") {
+          navigate("/otp-verification");
+          // navigate("/dashboard");
+        }
+        // If User
+        else if (data.role === "user") {
+          navigate("/user-pannel");
+        }
+      } else {
+        alert("Login failed: " + data.message);
+      }
+    } catch (error) {
+      // If server returned an error (e.g., 401), it will end up here
+      alert(error.response?.data?.message || error.message);
     }
   };
 
